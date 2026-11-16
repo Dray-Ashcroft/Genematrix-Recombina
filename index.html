@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=Roboto+Mono:wght@500;700&family=Roboto:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="css/style.css?v=lig2">
+<link rel="stylesheet" href="css/style.css?v=sel3">
 </head>
 <body>
 <div id="hero">
@@ -114,7 +114,7 @@
 
     <!-- STAGE 1: identify + cut the plasmid (existing, unchanged) -->
     <div class="stage-panel" id="stage-plasmid">
-      <details class="vec-card" id="vec-card" open>
+      <details class="vec-card" id="vec-card">
         <summary>Vector map — pBR322 <em>(simplified)</em></summary>
         <div class="vec-body col"><div id="vec-map" class="vec-map"></div><div class="vec-info" id="vec-info"></div><div class="vec-note" id="vec-note"></div></div>
       </details>
@@ -145,8 +145,7 @@
         </div>
       </div>
 
-      <div class="panel-section">
-        <div class="section-label">Selected Sequence</div>
+      <div class="panel-section sel-card">
         <div class="selected-readout">
           <div class="enzyme-chip" id="plasmid-enzyme-chip"></div>
           <div class="readout-label">Selected region (5'→3')</div>
@@ -159,28 +158,26 @@
             <span class="empty-slot">_</span>
           </div>
         </div>
-      </div>
-
-      <div class="panel-section">
-        <div class="section-label">Analysis</div>
         <div class="status-area" id="status-area"></div>
       </div>
 
-      <div class="panel-actions">
-        <button class="panel-btn" id="btn-reset">Reset</button>
-        <button class="panel-btn primary" id="btn-restrict" disabled>Restrict</button>
-      </div>
-      <div class="panel-actions" id="plasmid-next-row" style="display:none;">
-        <button class="panel-btn forward" id="btn-go-to-gene">Cut Gene of Interest →</button>
+      <div class="fab-bar">
+        <div class="panel-actions">
+          <div class="fab-wrap"><button class="panel-btn fab tonal" id="btn-reset" aria-label="Clear selection" title="Clear selection"><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 108-8 8.4 8.4 0 00-5.8 2.4L4 8.5"/><path d="M4 4v4.5h4.5"/></svg></button><span class="fab-cap">Clear</span></div>
+          <div class="fab-wrap"><button class="panel-btn fab primary" id="btn-restrict" aria-label="Cut with the restriction enzyme" title="Cut with the restriction enzyme" disabled><svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4L8.1 15.9M14.5 14.5L20 20M8.1 8.1L12 12"/></svg></button><span class="fab-cap">Cut</span></div>
+        </div>
+        <div class="panel-actions" id="plasmid-next-row" style="display:none;">
+          <div class="fab-wrap"><button class="panel-btn fab primary" id="btn-go-to-gene" aria-label="Next: cut the gene of interest" title="Next: cut the gene of interest"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button><span class="fab-cap">To gene</span></div>
+        </div>
       </div>
     </div>
 
     <!-- STAGE 2: find the SAME site in the Gene of Interest -->
     <div class="stage-panel stage-hidden" id="stage-gene">
-      <div class="panel-section">
-        <div class="section-label">Plasmid — Previous Cut</div>
+      <details class="lig-why ref-why">
+        <summary>Plasmid cut</summary>
         <div class="reference-card" id="plasmid-reference-card"></div>
-      </div>
+      </details>
 
       <div class="panel-section">
         <div class="section-label">Gene of Interest</div>
@@ -209,8 +206,7 @@
         </div>
       </div>
 
-      <div class="panel-section">
-        <div class="section-label">Selected Sequence</div>
+      <div class="panel-section sel-card">
         <div class="selected-readout">
           <div class="enzyme-chip" id="gene-enzyme-chip"></div>
           <div class="readout-label">Selected region (5'→3')</div>
@@ -223,16 +219,14 @@
             <span class="empty-slot">_</span>
           </div>
         </div>
-      </div>
-
-      <div class="panel-section">
-        <div class="section-label">Analysis</div>
         <div class="status-area" id="status-area-gene"></div>
       </div>
 
-      <div class="panel-actions">
-        <button class="panel-btn" id="btn-reset-gene">Reset</button>
-        <button class="panel-btn primary" id="btn-cut-gene" disabled>Cut Gene</button>
+      <div class="fab-bar">
+        <div class="panel-actions">
+          <div class="fab-wrap"><button class="panel-btn fab tonal" id="btn-reset-gene" aria-label="Clear selection" title="Clear selection"><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 108-8 8.4 8.4 0 00-5.8 2.4L4 8.5"/><path d="M4 4v4.5h4.5"/></svg></button><span class="fab-cap">Clear</span></div>
+          <div class="fab-wrap"><button class="panel-btn fab primary" id="btn-cut-gene" aria-label="Cut the gene with the same enzyme" title="Cut the gene with the same enzyme" disabled><svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4L8.1 15.9M14.5 14.5L20 20M8.1 8.1L12 12"/></svg></button><span class="fab-cap">Cut gene</span></div>
+        </div>
       </div>
     </div>
 
@@ -258,8 +252,10 @@
         <div class="status-area" id="compatible-status" style="margin-top:10px;"></div>
       </div>
 
-      <div class="panel-actions">
-        <button class="panel-btn forward" id="btn-proceed-ligation" disabled>Proceed to Ligation →</button>
+      <div class="fab-bar">
+        <div class="panel-actions">
+          <div class="fab-wrap"><button class="panel-btn fab primary" id="btn-proceed-ligation" aria-label="Next: join the pieces (ligation)" title="Next: join the pieces (ligation)" disabled><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button><span class="fab-cap">To ligation</span></div>
+        </div>
       </div>
     </div>
 
@@ -325,7 +321,7 @@
         </details>
       </div>
 
-      <div class="lig-actions">
+      <div class="lig-actions fab-bar">
         <div class="panel-actions" id="insert-action-row">
           <div class="fab-wrap"><button class="panel-btn fab primary" id="btn-insert-gene" aria-label="Bring the ends together" title="Bring the ends together"><svg viewBox="0 0 24 24"><path d="M3 12h6M6 9l3 3-3 3M21 12h-6M18 9l-3 3 3 3"/></svg></button><span class="fab-cap">Join ends</span></div>
         </div>
@@ -363,7 +359,7 @@
   </div>
 </div>
 
-<script src="js/app.js?v=lig2"></script>
+<script src="js/app.js?v=sel3"></script>
 
 <!-- 3D hero intro (three.js from CDN). Fails safe: on any error or
      a slow network, the hero simply fades out and the 2D sim runs. -->
@@ -374,12 +370,12 @@
 } }
 </script>
 <!-- If hero.js cannot load (e.g. opened as a local file), drop the intro so the app is usable -->
-<script type="module" src="js/hero.js?v=lig2" onerror="var h=document.getElementById('hero');if(h){h.classList.add('gone');setTimeout(function(){h.remove()},1000)}"></script>
+<script type="module" src="js/hero.js?v=sel3" onerror="var h=document.getElementById('hero');if(h){h.classList.add('gone');setTimeout(function(){h.remove()},1000)}"></script>
 <!-- 3D DNA helix for the ligation stage. Built procedurally from the
      real sequence (every base is a real A/T/G/C with its letter), styled
      after a classic DNA model: tubular backbone, two-tone base rungs.
      Driven by the 2D ligation sequencer through window.ArcDNA3D. -->
-<script type="module" src="js/dna3d.js?v=lig2"></script>
+<script type="module" src="js/dna3d.js?v=sel3"></script>
 
 
 </body>
