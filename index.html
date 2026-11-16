@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2312102a'/%3E%3Cpath d='M10 4c0 8 12 8 12 12s-12 4-12 12M22 4c0 8-12 8-12 12s12 4 12 12' fill='none' stroke='%23b48cff' stroke-width='2.4' stroke-linecap='round'/%3E%3Cpath d='M12 9h8M12 23h8' stroke='%236ee1f5' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E">
+<title>GeneMatrix Recombina</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=Roboto+Mono:wght@500;700&family=Roboto:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="hero">
+  <div id="hero-loading"></div>
+  <div id="hero-caption">Bacterial colonies on an agar plate</div>
+  <div id="hero-cta">Tap the dish to begin</div>
+</div>
+<div id="sim-container">
+  <canvas id="bioCanvas"></canvas>
+
+  <div class="brand" id="brand">
+    <div class="brand-icon">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="dnaGrad" x1="0" y1="0" x2="0" y2="24" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#d6bfff"/>
+            <stop offset="100%" stop-color="#9a6dff"/>
+          </linearGradient>
+        </defs>
+        <path d="M6.5 2 C6.5 6, 17.5 6, 17.5 10 C17.5 14, 6.5 14, 6.5 18 C6.5 20, 8 22, 10 22"
+              stroke="url(#dnaGrad)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+        <path d="M17.5 2 C17.5 6, 6.5 6, 6.5 10 C6.5 14, 17.5 14, 17.5 18 C17.5 20, 16 22, 14 22"
+              stroke="url(#dnaGrad)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+        <line x1="8" y1="4.3" x2="16" y2="4.3" stroke="#c9a8ff" stroke-width="1" stroke-linecap="round" opacity="0.75"/>
+        <line x1="6.5" y1="10" x2="17.5" y2="10" stroke="#c9a8ff" stroke-width="1" stroke-linecap="round" opacity="0.75"/>
+        <line x1="8" y1="15.7" x2="16" y2="15.7" stroke="#c9a8ff" stroke-width="1" stroke-linecap="round" opacity="0.75"/>
+      </svg>
+    </div>
+    <div class="brand-text">
+      <div class="brand-title">GeneMatrix Recombina<button type="button" class="credit-btn" id="credit-btn" aria-label="Credits" title="Credits">c</button></div>
+      <div class="brand-sub">Interactive Genetic Engineering Simulator</div>
+    </div>
+  </div>
+
+  <div id="hint-overlay">Tap the glowing plasmid to analyze its DNA</div>
+  <div id="dish-banner"></div>
+  <div id="sel-sheet">
+    <div class="sel-tabs" id="sel-tabs">
+      <button type="button" data-m="abx" class="on">Antibiotic markers</button>
+      <button type="button" data-m="bgal">Blue–white (β-gal)</button>
+    </div>
+    <div class="sel-legend" id="sel-legend"></div>
+    <div class="sel-row">
+      <div class="sel-map" id="sel-map"></div>
+      <div class="sel-text" id="sel-text"></div>
+    </div>
+    <div class="sel-actions">
+      <button type="button" id="sel-redo" title="Repeat the transformation">↺</button>
+      <button type="button" id="sel-go"></button>
+    </div>
+  </div>
+  <div id="credits" role="dialog" aria-modal="true" aria-label="Credits">
+    <div class="cr-card">
+      <div class="cr-head"><div class="cr-c">c</div><div><b>GeneMatrix Recombina</b><span>Interactive Genetic Engineering Simulator</span></div></div>
+      <div class="cr-block">
+        <div class="cr-k">Project Designer</div>
+        <div class="cr-v">Sai Prasad<small>M.Sc. Ag. Entomology, ASRB NET</small></div>
+      </div>
+      <div class="cr-block">
+        <div class="cr-k">In assistance with</div>
+        <div class="cr-v">Claude Opus 5.5</div>
+      </div>
+      <div class="cr-block">
+        <div class="cr-k">3D models (GLB)</div>
+        <ul class="cr-list">
+          <li><b>Microbial Culture (petri dish – agar plate)</b> — Ioannis Stavridis
+            (<a href="https://sketchfab.com/3d-models/microbial-culture-petri-dish-agar-plate-a760d477c4564ac98d38ce11c5be8215" target="_blank" rel="noopener">@Ioannis_Spyridon_Stavridis</a>)<span class="cr-lic">CC BY 4.0</span>
+            <span class="cr-use">Intro plate — modified: agar recoloured, hidden parts removed, compressed</span></li>
+          <li><b>DNA</b> — LucasPresoto
+            (<a href="https://sketchfab.com/3d-models/dna-547d42f6c0184232a945051b6952a39e" target="_blank" rel="noopener">@LucasPresoto</a>)<span class="cr-lic">CC BY 4.0</span>
+            <span class="cr-use">Style reference for the 3D helix and nucleoid colours</span></li>
+          <li><b>dna</b> — andrey6475u
+            (<a href="https://sketchfab.com/3d-models/dna-eee1f1afd4fb4cb2983f04cc122e1bf3" target="_blank" rel="noopener">@andrey6475u</a>)<span class="cr-lic">CC BY 4.0</span>
+            <span class="cr-use">Reference for the atomic (ball-and-stick) view</span></li>
+        </ul>
+      </div>
+      <div class="cr-block">
+        <div class="cr-k">Data &amp; libraries</div>
+        <ul class="cr-list">
+          <li><b>PDB 1BNA</b> — Drew &amp; Dickerson (1981), B-DNA dodecamer<span class="cr-lic">Public</span>
+            <span class="cr-use">Atomic coordinates; base frames after Olson et al. (2001)</span></li>
+          <li><b>three.js</b> r170<span class="cr-lic">MIT</span><span class="cr-use">3D rendering</span></li>
+        </ul>
+      </div>
+      <button type="button" class="cr-close" id="cr-close">Close</button>
+    </div>
+  </div>
+  <div id="replica">
+    <div class="rep-card">
+      <div class="rep-title" id="rep-title">Replica plating</div>
+      <div class="rep-plates" id="rep-plates"></div>
+      <div class="rep-caption" id="rep-caption"></div>
+      <button type="button" class="rep-close" id="rep-close">Back to the master plate</button>
+    </div>
+  </div>
+  <button id="btn-amp" type="button">Add ampicillin to the plate</button>
+
+  <div id="analysis-panel">
+    <div class="panel-header">
+      <div class="panel-title" id="panel-title">Plasmid Analysis</div>
+      <div class="panel-subtitle" id="panel-subtitle">Restriction Site Identification</div>
+    </div>
+
+    <!-- STAGE 1: identify + cut the plasmid (existing, unchanged) -->
+    <div class="stage-panel" id="stage-plasmid">
+      <details class="vec-card" id="vec-card" open>
+        <summary>Vector map — pBR322 <em>(simplified)</em></summary>
+        <div class="vec-body col"><div id="vec-map" class="vec-map"></div><div class="vec-info" id="vec-info"></div><div class="vec-note" id="vec-note"></div></div>
+      </details>
+      <div class="panel-section">
+        <div class="section-label">DNA Sequence — tap any 6 consecutive bases</div>
+        <div class="dna-sequence-container">
+          <div class="strand-block">
+            <div class="strand-labels">
+              <span class="seq-direction-inline">5'</span>
+              <span class="seq-direction-inline">3'</span>
+            </div>
+            <div class="sequence-viewport">
+              <div class="strand-scroll" id="strand-scroll">
+                <div class="seq-bases" id="seq-bases"></div>
+                <div class="pos-ruler" id="pos-ruler"></div>
+                <div class="region-band" id="region-band"></div>
+                <div class="seq-bases-complement" id="seq-bases-complement"></div>
+              </div>
+              <button class="scroll-btn scroll-btn-left" id="scroll-left" type="button" aria-label="Scroll left">‹</button>
+              <button class="scroll-btn scroll-btn-right" id="scroll-right" type="button" aria-label="Scroll right">›</button>
+            </div>
+            <div class="strand-labels">
+              <span class="seq-direction-inline">3'</span>
+              <span class="seq-direction-inline">5'</span>
+            </div>
+          </div>
+          <div class="strand-caption">Top strand only is selectable · swipe to scroll</div>
+        </div>
+      </div>
+
+      <div class="panel-section">
+        <div class="section-label">Selected Sequence</div>
+        <div class="selected-readout">
+          <div class="enzyme-chip" id="plasmid-enzyme-chip"></div>
+          <div class="readout-label">Selected region (5'→3')</div>
+          <div class="readout-seq" id="readout-seq">
+            <span class="empty-slot">_</span>
+            <span class="empty-slot">_</span>
+            <span class="empty-slot">_</span>
+            <span class="empty-slot">_</span>
+            <span class="empty-slot">_</span>
+            <span class="empty-slot">_</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-section">
+        <div class="section-label">Analysis</div>
+        <div class="status-area" id="status-area"></div>
+      </div>
+
+      <div class="panel-actions">
+        <button class="panel-btn" id="btn-reset">Reset</button>
+        <button class="panel-btn primary" id="btn-restrict" disabled>Restrict</button>
+      </div>
+      <div class="panel-actions" id="plasmid-next-row" style="display:none;">
+        <button class="panel-btn forward" id="btn-go-to-gene">Cut Gene of Interest →</button>
+      </div>
+    </div>
+
+    <!-- STAGE 2: find the SAME site in the Gene of Interest -->
+    <div class="stage-panel stage-hidden" id="stage-gene">
+      <div class="panel-section">
+        <div class="section-label">Plasmid — Previous Cut</div>
+        <div class="reference-card" id="plasmid-reference-card"></div>
+      </div>
+
+      <div class="panel-section">
+        <div class="section-label">Gene of Interest</div>
+        <div style="font-size:10px; color:var(--text-secondary); margin-bottom:2px;">Find the same restriction site used to cut the plasmid</div>
+        <div class="dna-sequence-container">
+          <div class="strand-block">
+            <div class="strand-labels">
+              <span class="seq-direction-inline">5'</span>
+              <span class="seq-direction-inline">3'</span>
+            </div>
+            <div class="sequence-viewport">
+              <div class="strand-scroll" id="strand-scroll-gene">
+                <div class="seq-bases" id="seq-bases-gene"></div>
+                <div class="pos-ruler" id="pos-ruler-gene"></div>
+                <div class="seq-bases-complement" id="seq-bases-complement-gene"></div>
+              </div>
+              <button class="scroll-btn scroll-btn-left" id="scroll-left-gene" type="button" aria-label="Scroll left">‹</button>
+              <button class="scroll-btn scroll-btn-right" id="scroll-right-gene" type="button" aria-label="Scroll right">›</button>
+            </div>
+            <div class="strand-labels">
+              <span class="seq-direction-inline">3'</span>
+              <span class="seq-direction-inline">5'</span>
+            </div>
+          </div>
+          <div class="strand-caption">Top strand only is selectable · swipe to scroll</div>
+        </div>
+      </div>
+
+      <div class="panel-section">
+        <div class="section-label">Selected Sequence</div>
+        <div class="selected-readout">
+          <div class="enzyme-chip" id="gene-enzyme-chip"></div>
+          <div class="readout-label">Selected region (5'→3')</div>
+          <div class="readout-seq" id="readout-seq-gene">
+            <span class="empty-slot">_</span>
+            <span class="empty-slot">_</span>
+            <span class="empty-slot">_</span>
+            <span class="empty-slot">_</span>
+            <span class="empty-slot">_</span>
+            <span class="empty-slot">_</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-section">
+        <div class="section-label">Analysis</div>
+        <div class="status-area" id="status-area-gene"></div>
+      </div>
+
+      <div class="panel-actions">
+        <button class="panel-btn" id="btn-reset-gene">Reset</button>
+        <button class="panel-btn primary" id="btn-cut-gene" disabled>Cut Gene</button>
+      </div>
+    </div>
+
+    <!-- STAGE 3: gene cut result + sticky-end comparison -->
+    <div class="stage-panel stage-hidden" id="stage-gene-cut">
+      <div class="panel-section">
+        <div class="section-label">Analysis</div>
+        <div class="status-area" id="status-area-gene-cut"></div>
+      </div>
+
+      <div class="panel-section" id="compare-section" style="display:none;">
+        <div class="section-label">Sticky End Comparison</div>
+        <div class="compare-grid">
+          <div class="compare-card">
+            <div class="compare-label">Plasmid End</div>
+            <div class="compare-seq" id="compare-plasmid-end"></div>
+          </div>
+          <div class="compare-card">
+            <div class="compare-label">Gene of Interest End</div>
+            <div class="compare-seq" id="compare-gene-end"></div>
+          </div>
+        </div>
+        <div class="status-area" id="compatible-status" style="margin-top:10px;"></div>
+      </div>
+
+      <div class="panel-actions">
+        <button class="panel-btn forward" id="btn-proceed-ligation" disabled>Proceed to Ligation →</button>
+      </div>
+    </div>
+
+    <!-- STAGE 4: insertion → sticky-end annealing → simulated ligation -->
+    <div class="stage-panel stage-hidden" id="stage-ligation">
+      <div class="panel-section" id="pre-insert-section">
+        <div class="section-label">Cut Plasmid — Open at the Restriction Site</div>
+        <div class="sticky-diagram-row" id="plasmid-sticky-diagram"></div>
+        <div class="molecule-strip">
+          <div class="strip-line" id="plasmid-strand-top"></div>
+          <div class="strip-line" id="plasmid-strand-bottom"></div>
+        </div>
+        <div class="strip-label">Gene of Interest — Cut With the Same Enzyme</div>
+        <div class="sticky-diagram-row" id="gene-sticky-diagram"></div>
+        <div class="molecule-strip">
+          <div class="strip-line-group">
+            <div class="strip-line" id="gene-strand-top"></div>
+            <div class="strip-line" id="gene-strand-bottom"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-section stage-hidden" id="junction-section">
+        <div class="section-label" id="junction-label">Recombinant Junction</div>
+        <div class="sticky-diagram-row" id="junction-sticky-diagram"></div>
+        <div class="molecule-strip" id="junction-strip">
+          <div class="strip-line" id="junction-strand-top"></div>
+          <div class="strip-line" id="junction-strand-bottom"></div>
+          <div class="ligase-chip" id="ligase-chip" style="display:none;">LIGASE</div>
+        </div>
+      </div>
+
+      <div class="panel-section" id="ligx-section">
+        <ol class="lig-steps" id="lig-steps">
+          <li data-s="1"><b>1</b><span>Cut ends</span></li>
+          <li data-s="2"><b>2</b><span>Anneal</span></li>
+          <li data-s="3"><b>3</b><span>Ligate</span></li>
+          <li data-s="4"><b>4</b><span>Recombinant</span></li>
+        </ol>
+        <div id="dna3d-host" style="display:none">
+          <div class="dna3d-legend">
+            <span><i style="background:#ff4a4a"></i>A</span><span><i style="background:#f4dc3c"></i>T</span>
+            <span><i style="background:#5fd84a"></i>G</span><span><i style="background:#a066ff"></i>C</span>
+            <span class="sep"></span>
+            <span><i style="background:#3d8bff"></i>Plasmid</span><span><i style="background:#ff7a7a"></i>Gene</span>
+          </div>
+          <div class="dna3d-hint">Drag to rotate</div>
+          <button type="button" class="dna3d-chip" id="dna3d-atoms">⚛ Atoms</button>
+        </div>
+        <div class="lig-card">
+          <div class="lig-card-title" id="ligx-label">Cut Plasmid + Gene of Interest</div>
+          <div class="lig-live" id="lig-live"></div>
+          <div class="lig-progress"><i id="lig-progress-bar"></i></div>
+          <div class="status-area" id="ligation-status"></div>
+        </div>
+        <details class="lig-seq" id="lig-seq">
+          <summary>Base-by-base view</summary>
+          <div id="ligx-host"></div>
+          <div class="ligx-key" id="ligx-key"></div>
+        </details>
+      </div>
+
+      <div class="panel-actions" id="insert-action-row">
+        <button class="panel-btn forward" id="btn-insert-gene">Bring the ends together →</button>
+      </div>
+      <div class="panel-actions stage-hidden" id="ligate-action-row">
+        <button class="panel-btn forward" id="btn-simulate-ligation">Seal with DNA ligase →</button>
+      </div>
+      <div class="panel-actions stage-hidden" id="see-recombinants-row">
+        <button class="panel-btn" id="btn-replay-ligation">↺ Replay</button>
+        <button class="panel-btn forward" id="btn-see-recombinants">Put it into bacteria →</button>
+      </div>
+    </div>
+
+    <div class="stage-panel stage-hidden" id="stage-recombinant-view">
+      <div class="panel-section">
+        <div class="section-label" id="recomb-label">Recombinant Plasmid</div>
+        <div class="gs-card" id="gs-card"></div>
+        <div class="molecule-strip">
+          <div class="strip-line-group">
+            <div class="strip-line" id="recombinant-strand-top"></div>
+            <div class="strip-line" id="recombinant-strand-bottom"></div>
+          </div>
+        </div>
+        <div class="reference-overhang" id="recombinant-gene-caption">
+          <span class="gene-of-interest-swatch"></span> Gene of Interest
+        </div>
+        <div class="gs-strip-note" id="gs-strip-note"></div>
+        <div class="vec-body col" style="margin-top:12px"><div id="recomb-map" class="vec-map"></div><div class="vec-info" id="recomb-info"></div><div class="vec-note" id="recomb-note"></div></div>
+      </div>
+      <div class="status-area show status-success" id="recombinant-status">
+        PLASMID + GENE OF INTEREST = RECOMBINANT PLASMID<br>
+        <span style="font-size:10px;opacity:0.8">This plasmid, carrying the inserted Gene of Interest, now exists inside this bacterium.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+
+<!-- 3D hero intro (three.js from CDN). Fails safe: on any error or
+     a slow network, the hero simply fades out and the 2D sim runs. -->
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+} }
+</script>
+<!-- If hero.js cannot load (e.g. opened as a local file), drop the intro so the app is usable -->
+<script type="module" src="js/hero.js" onerror="var h=document.getElementById('hero');if(h){h.classList.add('gone');setTimeout(function(){h.remove()},1000)}"></script>
+<!-- 3D DNA helix for the ligation stage. Built procedurally from the
+     real sequence (every base is a real A/T/G/C with its letter), styled
+     after a classic DNA model: tubular backbone, two-tone base rungs.
+     Driven by the 2D ligation sequencer through window.ArcDNA3D. -->
+<script type="module" src="js/dna3d.js"></script>
+
+
+</body>
+</html>
