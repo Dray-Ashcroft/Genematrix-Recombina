@@ -136,7 +136,8 @@ The intro plate was modified (agar recoloured, hidden parts removed, compressed)
 
 | Release | Title | Date |
 | --- | --- | --- |
-| RC I | Living Lab | 16 Nov 2026 |
+| RC II| Compact Lab | 16 Nov 2026 |
+| RC I | Living Lab | 10 Sep 2026 |
 
 ## License
 
