@@ -177,7 +177,7 @@
     min-height: 0;
   }
   .stage-hidden {
-    display: none;
+    display: none !important;   /* must beat later display rules (.panel-actions etc.) */
   }
 
   .panel-header {
@@ -1411,3 +1411,44 @@
   #hint-overlay.visible {
     opacity: 1;
   }
+
+/* ---------- Ligation: compact layout, collapsible explanation, MD3 icon buttons ---------- */
+#stage-ligation { gap: 12px; }
+#stage-ligation .lig-steps { margin-bottom: 8px; }
+#stage-ligation .lig-card { padding: 10px 12px; }
+#stage-ligation .lig-live { font-size: 13px; margin-top: 4px; }
+.lig-why { margin-top: 8px; }
+.lig-why summary {
+  cursor: pointer; list-style: none; display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 10px; border-radius: 12px; background: rgba(160, 135, 240, 0.12);
+  font: 700 9.5px/1.4 var(--font-sans); letter-spacing: 1.2px; text-transform: uppercase; color: rgba(215, 205, 255, 0.85);
+}
+.lig-why summary::-webkit-details-marker { display: none; }
+.lig-why summary::after { content: '▾'; transition: transform 0.2s; }
+.lig-why[open] summary::after { transform: rotate(180deg); }
+.lig-why .status-area { margin-top: 8px !important; }
+/* Action bar: pinned to the bottom of the panel — no scrolling to reach it */
+#stage-ligation .lig-actions {
+  position: sticky; bottom: -28px; z-index: 3; margin: 0 -24px -28px; padding: 12px 24px 18px;
+  background: linear-gradient(to top, rgba(12, 10, 28, 0.98) 72%, rgba(12, 10, 28, 0));
+}
+#stage-ligation .lig-actions .panel-actions { margin-top: 0; justify-content: center; gap: 28px; }
+.fab-wrap { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+#stage-ligation .panel-btn.fab {
+  flex: none; width: 56px; height: 56px; padding: 0; border-radius: 50%;
+  display: grid; place-items: center; border: none; cursor: pointer;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.45), 0 1px 3px rgba(0, 0, 0, 0.3);
+  transition: transform 0.15s, box-shadow 0.2s, filter 0.2s;
+}
+#stage-ligation .panel-btn.fab.primary { background: #6fd6ea; color: #062a33; }
+#stage-ligation .panel-btn.fab.tonal { width: 48px; height: 48px; margin-top: 4px; background: rgba(160, 135, 240, 0.22); color: #e6dcff; box-shadow: none; }
+#stage-ligation .panel-btn.fab:hover { filter: brightness(1.08); box-shadow: 0 6px 14px rgba(0, 0, 0, 0.5); }
+#stage-ligation .panel-btn.fab:active { transform: scale(0.94); }
+#stage-ligation .panel-btn.fab svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+#stage-ligation .panel-btn.fab.primary svg rect { fill: currentColor; stroke: none; }
+#stage-ligation .panel-btn.fab.tonal svg { width: 21px; height: 21px; }
+.fab-cap { font: 600 9.5px/1.2 var(--font-sans); letter-spacing: 0.6px; color: rgba(210, 205, 255, 0.75); text-transform: uppercase; }
+/* Shorter 3D view on short screens so the whole step fits */
+@media (max-height: 820px) { #stage-ligation #dna3d-host { height: 210px; } }
+@media (max-height: 680px) { #stage-ligation #dna3d-host { height: 170px; } }
+@media (max-width: 768px) { #stage-ligation .lig-actions { margin: 0 -20px -32px; padding: 12px 20px 22px; bottom: -32px; } }
