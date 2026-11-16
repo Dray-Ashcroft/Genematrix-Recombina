@@ -855,7 +855,7 @@
       statusArea.className = '';
       statusArea.textContent = '';
       btnRestrict.disabled = true;
-      btnRestrict.textContent = 'Restrict';
+      btnRestrict.parentElement.style.display = '';
       appState.matchedEnzyme = null;
     }
   }
@@ -1148,7 +1148,7 @@
       `<span style="font-size:10px;opacity:0.75">${cut.endLabel} · ${enzyme.source}</span>`;
 
     btnRestrict.disabled = true;
-    btnRestrict.textContent = 'Cut ✓';
+    btnRestrict.parentElement.style.display = 'none';   // cut done: the next-step button takes its place
     renderVectorCard();
     plasmidNextRow.style.display = 'flex';
   }
@@ -2032,7 +2032,7 @@
     statusArea.className = '';
     statusArea.textContent = '';
     btnRestrict.disabled = true;
-    btnRestrict.textContent = 'Restrict';
+    btnRestrict.parentElement.style.display = '';
     plasmidNextRow.style.display = 'none';
     statusAreaGene.className = '';
     statusAreaGene.textContent = '';
@@ -2247,6 +2247,17 @@
   canvas.addEventListener('pointermove', e => {
     const pos = getPointerPos(e);
     appState.mouseX = pos.x; appState.mouseY = pos.y;
+  });
+
+
+  // Compact layout: when a result appears, bring it into view just above the pinned button bar
+  ['status-area', 'status-area-gene', 'status-area-gene-cut'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el || !window.MutationObserver) return;
+    new MutationObserver(() => {
+      if (!el.classList.contains('show')) return;
+      setTimeout(() => { if (el.classList.contains('show') && el.offsetParent) el.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); }, 60);
+    }).observe(el, { attributes: true, attributeFilter: ['class'], childList: true });
   });
 
   btnReset.addEventListener('pointerdown', e => {
