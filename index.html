@@ -313,7 +313,10 @@
           <div class="lig-card-title" id="ligx-label">Cut Plasmid + Gene of Interest</div>
           <div class="lig-live" id="lig-live"></div>
           <div class="lig-progress"><i id="lig-progress-bar"></i></div>
-          <div class="status-area" id="ligation-status"></div>
+          <details class="lig-why" id="lig-why">
+            <summary>Why?</summary>
+            <div class="status-area" id="ligation-status"></div>
+          </details>
         </div>
         <details class="lig-seq" id="lig-seq">
           <summary>Base-by-base view</summary>
@@ -322,15 +325,17 @@
         </details>
       </div>
 
-      <div class="panel-actions" id="insert-action-row">
-        <button class="panel-btn forward" id="btn-insert-gene">Bring the ends together →</button>
-      </div>
-      <div class="panel-actions stage-hidden" id="ligate-action-row">
-        <button class="panel-btn forward" id="btn-simulate-ligation">Seal with DNA ligase →</button>
-      </div>
-      <div class="panel-actions stage-hidden" id="see-recombinants-row">
-        <button class="panel-btn" id="btn-replay-ligation">↺ Replay</button>
-        <button class="panel-btn forward" id="btn-see-recombinants">Put it into bacteria →</button>
+      <div class="lig-actions">
+        <div class="panel-actions" id="insert-action-row">
+          <div class="fab-wrap"><button class="panel-btn fab primary" id="btn-insert-gene" aria-label="Bring the ends together" title="Bring the ends together"><svg viewBox="0 0 24 24"><path d="M3 12h6M6 9l3 3-3 3M21 12h-6M18 9l-3 3 3 3"/></svg></button><span class="fab-cap">Join ends</span></div>
+        </div>
+        <div class="panel-actions stage-hidden" id="ligate-action-row">
+          <div class="fab-wrap"><button class="panel-btn fab primary" id="btn-simulate-ligation" aria-label="Seal with DNA ligase" title="Seal with DNA ligase"><svg viewBox="0 0 24 24"><path d="M9.5 14.5l5-5"/><path d="M11 6.5l1.6-1.6a4 4 0 015.6 5.6L16.6 12"/><path d="M13 17.5l-1.6 1.6a4 4 0 01-5.6-5.6L7.4 12"/></svg></button><span class="fab-cap">Seal</span></div>
+        </div>
+        <div class="panel-actions stage-hidden" id="see-recombinants-row">
+          <div class="fab-wrap"><button class="panel-btn fab tonal" id="btn-replay-ligation" aria-label="Replay ligation" title="Replay ligation"><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 108-8 8.4 8.4 0 00-5.8 2.4L4 8.5"/><path d="M4 4v4.5h4.5"/></svg></button><span class="fab-cap">Replay</span></div>
+          <div class="fab-wrap"><button class="panel-btn fab primary" id="btn-see-recombinants" aria-label="Put it into bacteria" title="Put it into bacteria"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><rect x="6.5" y="9.6" width="6.5" height="3" rx="1.5" transform="rotate(-25 9.75 11.1)"/><rect x="11" y="12.8" width="6" height="2.8" rx="1.4" transform="rotate(20 14 14.2)"/></svg></button><span class="fab-cap">Into bacteria</span></div>
+        </div>
       </div>
     </div>
 
