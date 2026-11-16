@@ -31,7 +31,7 @@ Then put the new DNA into bacteria and find which colonies took it up — using 
 <table>
   <tr>
     <td width="50%" align="center"><img src="screenshots/Meet%20Genematrix.png" alt="Meet GeneMatrix" width="100%"><br><sub><b>1 · Meet GeneMatrix</b></sub></td>
-    <td width="50%" align="center"><img src="screenshots/Explore%20Plasmid%20PBR322.png" alt="Explore plasmid pBR322" width="100%"><br><sub><b>2 · Explore Plasmid pBR322</b></sub></td>
+    <td width="50%" align="center"><img src="screenshots/Explore%20Plasmid%20PBR322.png" alt="Explore plasmid pBR322" width="100%"><br><sub><b>2 · Explore pBR322</b></sub></td>
   </tr>
   <tr>
     <td width="50%" align="center"><img src="screenshots/Visualise%20Ligation.png" alt="Visualise ligation" width="100%"><br><sub><b>3 · Visualise Ligation</b></sub></td>
