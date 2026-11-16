@@ -1188,9 +1188,9 @@
   .lig-seq[open] summary::after { transform: rotate(180deg); }
   .lig-seq[open] { padding-bottom: 10px; }
   #stage-ligation .panel-actions { margin-top: 12px; }
-  #stage-ligation .panel-btn { padding: 15px 12px; font-size: 11px; border-radius: 12px; }
-  #stage-ligation .panel-btn.forward { flex: 2.4; }
-  #stage-ligation .panel-btn:disabled { opacity: 0.35; }
+  #stage-ligation .panel-btn:not(.fab) { padding: 15px 12px; font-size: 11px; border-radius: 12px; }
+  #stage-ligation .panel-btn:not(.fab).forward { flex: 2.4; }
+  #stage-ligation .panel-btn:not(.fab):disabled { opacity: 0.35; }
   /* Cut ↔ Join key: the two processes are mirror images */
   .ligx-key {
     margin-top: 10px; border: 1px solid rgba(140, 115, 220, 0.2); border-radius: 8px; overflow: hidden;
@@ -1428,27 +1428,38 @@
 .lig-why[open] summary::after { transform: rotate(180deg); }
 .lig-why .status-area { margin-top: 8px !important; }
 /* Action bar: pinned to the bottom of the panel — no scrolling to reach it */
-#stage-ligation .lig-actions {
+.fab-bar {
   position: sticky; bottom: -28px; z-index: 3; margin: 0 -24px -28px; padding: 12px 24px 18px;
   background: linear-gradient(to top, rgba(12, 10, 28, 0.98) 72%, rgba(12, 10, 28, 0));
 }
-#stage-ligation .lig-actions .panel-actions { margin-top: 0; justify-content: center; gap: 28px; }
+.fab-bar .panel-actions { margin-top: 0; justify-content: center; gap: 28px; }
 .fab-wrap { display: flex; flex-direction: column; align-items: center; gap: 5px; }
-#stage-ligation .panel-btn.fab {
+.panel-btn.fab {
   flex: none; width: 56px; height: 56px; padding: 0; border-radius: 50%;
   display: grid; place-items: center; border: none; cursor: pointer;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.45), 0 1px 3px rgba(0, 0, 0, 0.3);
   transition: transform 0.15s, box-shadow 0.2s, filter 0.2s;
 }
-#stage-ligation .panel-btn.fab.primary { background: #6fd6ea; color: #062a33; }
-#stage-ligation .panel-btn.fab.tonal { width: 48px; height: 48px; margin-top: 4px; background: rgba(160, 135, 240, 0.22); color: #e6dcff; box-shadow: none; }
-#stage-ligation .panel-btn.fab:hover { filter: brightness(1.08); box-shadow: 0 6px 14px rgba(0, 0, 0, 0.5); }
-#stage-ligation .panel-btn.fab:active { transform: scale(0.94); }
-#stage-ligation .panel-btn.fab svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-#stage-ligation .panel-btn.fab.primary svg rect { fill: currentColor; stroke: none; }
-#stage-ligation .panel-btn.fab.tonal svg { width: 21px; height: 21px; }
+.panel-btn.fab.primary { background: #6fd6ea; color: #062a33; }
+.panel-btn.fab.tonal { width: 48px; height: 48px; margin-top: 4px; background: rgba(160, 135, 240, 0.22); color: #e6dcff; box-shadow: none; }
+.panel-btn.fab:hover { filter: brightness(1.08); box-shadow: 0 6px 14px rgba(0, 0, 0, 0.5); }
+.panel-btn.fab:active { transform: scale(0.94); }
+.panel-btn.fab svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.panel-btn.fab.primary svg rect { fill: currentColor; stroke: none; }
+.panel-btn.fab.tonal svg { width: 21px; height: 21px; }
 .fab-cap { font: 600 9.5px/1.2 var(--font-sans); letter-spacing: 0.6px; color: rgba(210, 205, 255, 0.75); text-transform: uppercase; }
 /* Shorter 3D view on short screens so the whole step fits */
 @media (max-height: 820px) { #stage-ligation #dna3d-host { height: 210px; } }
 @media (max-height: 680px) { #stage-ligation #dna3d-host { height: 170px; } }
-@media (max-width: 768px) { #stage-ligation .lig-actions { margin: 0 -20px -32px; padding: 12px 20px 22px; bottom: -32px; } }
+@media (max-width: 768px) { .fab-bar { margin: 0 -20px -32px; padding: 12px 20px 22px; bottom: -32px; } }
+
+/* ---------- Same compact pattern for plasmid + gene site selection ---------- */
+.fab-bar { display: flex; justify-content: center; gap: 28px; margin-top: auto; }
+.panel-btn.fab:disabled { opacity: 1; background: rgba(255, 255, 255, 0.08); color: rgba(220, 215, 255, 0.35); box-shadow: none; cursor: default; filter: none; transform: none; }
+.panel-btn.fab:disabled + .fab-cap { opacity: 0.45; }
+.sel-card .selected-readout { margin: 0; padding: 8px 12px; display: flex; align-items: center; justify-content: center; gap: 14px; }
+.sel-card .readout-label { margin: 0; }
+.sel-card .status-area.show { margin-top: 8px; padding: 8px 10px; }
+.ref-why .reference-card { margin-top: 8px; }
+#stage-plasmid, #stage-gene, #stage-gene-cut { gap: 12px; }
+.status-area { scroll-margin-bottom: 118px; scroll-margin-top: 12px; }
