@@ -6,7 +6,7 @@
 
 <p align="center"><i>An interactive recombinant DNA laboratory — from restriction cut to recombinant selection</i></p>
 
-<p align="center"><b><a href="https://YOUR-SITE.pages.dev">Initiate Gene Modification</a></b></p>
+<p align="center"><b><a href="https://genematrix-recombina.stark-kodex.workers.dev/">Initiate Gene Modification</a></b></p>
 
 <p align="center">
   <a href="#about">About</a> ·
