@@ -163,6 +163,7 @@ The intro plate was modified (agar recoloured, hidden parts removed, compressed)
 
 | Release | Title | Date |
 | --- | --- | --- |
+| RC III | Lab Guide | 24 Nov 2026 |
 | RC II | Compact Lab | 16 Nov 2026 |
 | RC I | GeneNexa | 10 Sep 2026 |
 
